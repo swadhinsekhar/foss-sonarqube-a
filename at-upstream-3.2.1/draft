@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+VERSION=$(grep AC_INIT configure.ac | cut -f 2 -d , | tr -d ")" | tr -d " ")
+echo "Going to draft version: $VERSION"
+echo "Press enter to continue:"
+read enter
+autoconf
+
+git archive --format=tar --prefix=at-$VERSION/ --output=../at_$VERSION.orig.tar HEAD
+gzip -v9 ../at_$VERSION.orig.tar
+
